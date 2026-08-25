@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}{{ tr('analytics') }} · Mannina Maga{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">{{ tr('analytics') }}</span><h1>{{ tr('trends_title') }}</h1><p>{{ tr('trends_intro') }}</p></div></div>
+<div class="panel chart-panel"><div class="chart-head"><h2>Yield Trend (6 months)</h2><span class="muted">t/ha</span></div><canvas id="trendChart" height="360"></canvas><div class="legend"><span>Wheat</span><span>Rice</span><span>Maize</span></div></div>
+{% endblock %}
+{% block scripts %}<script>window.analyticsData={months:{{ months|tojson }},series:{{ series|tojson }}};</script>{% endblock %}

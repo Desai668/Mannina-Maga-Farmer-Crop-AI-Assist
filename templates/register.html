@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ tr('register') }} · Mannina Maga{% endblock %}
+{% block public_content %}
+<div class="auth-shell farmer-auth">
+  <section class="auth-info">
+    <div class="brand brand-light brand-with-sub"><span class="brand-mark">MM</span><span class="brand-name-wrap"><b>Mannina Maga</b><small>ಮಣ್ಣಿನ ಮಗ</small></span></div>
+    <div><span class="eyebrow">ಮಣ್ಣಿನ ಮಗ · YOUR FARM PROFILE</span><h1>Start with your<br><span>basic farm details.</span></h1><p>{{ tr('register_intro') }}</p></div><small>Simple · Mobile friendly · Render ready</small>
+  </section>
+  <section class="auth-form-wrap">
+    <form class="auth-card" method="post">
+      <h2>{{ tr('register') }}</h2>
+      {% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
+      <div class="two-col">
+        <div><label>{{ tr('name') }}</label><input name="name" required placeholder="e.g. Ramesh"></div>
+        <div><label>{{ tr('location') }}</label><input name="location" required placeholder="e.g. Mysuru, Karnataka"></div>
+        <div><label>{{ tr('email') }}</label><input name="email" type="email" required></div>
+        <div><label>{{ tr('password') }}</label><input name="password" type="password" minlength="4" required></div>
+        <div><label>{{ tr('main_crop') }}</label><select name="crop">{% for crop in crops %}<option value="{{ crop }}">{{ crop_label(crop) }}</option>{% endfor %}</select></div>
+        <div><label>{{ tr('area') }}</label><input name="area" type="number" step="0.1" min="0.1" value="5"></div>
+      </div>
+      <button class="btn primary full" type="submit">{{ tr('create_account') }}</button>
+      <p class="center muted">{{ tr('already_registered') }} <a href="{{ url_for('login') }}">{{ tr('signin') }}</a></p>
+    </form>
+  </section>
+</div>
+{% endblock %}

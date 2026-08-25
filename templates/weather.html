@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ tr('weather') }} · Mannina Maga{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">{{ tr('live_weather') }}</span><h1>{{ tr('weather') }}</h1><p>{{ tr('weather_desc') }}</p></div></div>
+<form class="panel weather-search" method="get"><label>{{ tr('location') }}</label><div class="inline-input"><input name="location" value="{{ location }}" placeholder="Mysuru, Karnataka" required><button class="btn primary" type="submit">{{ tr('search') }}</button></div></form>
+{% if weather %}
+<section class="weather-current panel"><div><span class="weather-place">{{ weather.location }}</span><strong class="weather-temp">{{ weather.temperature }}°C</strong><span>{{ weather.condition }}</span></div><div class="weather-stats"><div><span>{{ tr('humidity') }}</span><strong>{{ weather.humidity }}%</strong></div><div><span>{{ tr('rain_today') }}</span><strong>{{ weather.rainfall_today }} mm</strong></div><div><span>{{ tr('wind') }}</span><strong>{{ weather.wind }} km/h</strong></div></div></section>
+<h2 class="section-title">{{ tr('forecast') }}</h2><div class="forecast-grid">{% for day in weather.days %}<div class="forecast-card"><strong>{{ day.date }}</strong><span>{{ day.label }}</span><b>{{ day.max }}° / {{ day.min }}°</b><small>Rain: {{ day.rain }} mm · {{ day.rain_chance }}%</small></div>{% endfor %}</div>
+<p class="source-note">{{ tr('weather_source') }}</p>
+{% elif attempted %}<div class="notice">{{ tr('weather_unavailable') }}</div>{% endif %}
+{% endblock %}

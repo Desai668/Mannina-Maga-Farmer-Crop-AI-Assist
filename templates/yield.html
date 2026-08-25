@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}{{ tr('yield') }} · Mannina Maga{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="eyebrow">{{ tr('yield') }}</span><h1>{{ tr('yield_title') }}</h1><p>{{ tr('yield_intro') }}</p></div><button class="btn ghost" id="liveWeatherBtn" type="button" data-location="{{ user['location'] }}">☁ {{ tr('use_live_weather') }}</button></div>
+<form method="post" class="panel friendly-form">
+  <div class="form-grid three">
+    <div><label>{{ tr('crop') }}</label><select name="crop">{% for crop in crops %}<option value="{{ crop }}" {% if crop==form.crop %}selected{% endif %}>{{ crop_label(crop) }}</option>{% endfor %}</select></div>
+    <div><label>{{ tr('area') }}</label><input name="area" type="number" min="0.1" step="0.1" value="{{ form.area }}"></div>
+    <div><label>{{ tr('rainfall') }}</label><input id="rainfall" name="rainfall" type="number" step="0.1" value="{{ form.rainfall }}"></div>
+    <div><label>{{ tr('temperature') }} (°C)</label><input id="temp" name="temp" type="number" step="0.1" value="{{ form.temp }}"></div>
+    <div><label>{{ tr('humidity') }} (%)</label><input id="humidity" name="humidity" type="number" step="0.1" value="{{ form.humidity }}"></div>
+    <div><label>{{ tr('soil_ph') }}</label><input name="ph" type="number" step="0.1" value="{{ form.ph }}"></div>
+    <div><label>{{ tr('nitrogen') }}</label><input name="n" type="number" step="0.1" value="{{ form.n }}"></div>
+    <div><label>{{ tr('phosphorus') }}</label><input name="p" type="number" step="0.1" value="{{ form.p }}"></div>
+    <div><label>{{ tr('potassium') }}</label><input name="k" type="number" step="0.1" value="{{ form.k }}"></div>
+  </div>
+  <div class="form-actions"><button class="btn primary big-btn" type="submit">{{ tr('predict') }}</button><span class="model-badge">✓ {{ tr('ml_active') }}</span></div>
+</form>
+{% if result %}
+<div class="result-grid"><div class="result-card"><span>{{ tr('yield_per_ha') }}</span><strong>{{ result.yield_per_ha }} t/ha</strong></div><div class="result-card"><span>{{ tr('total_production') }}</span><strong>{{ result.production }} tonnes</strong></div><div class="result-card"><span>{{ tr('farm_match') }}</span><strong>{{ result.suitability }}%</strong></div></div>
+<div class="panel explain-panel"><div class="chart-head"><h2>{{ tr('why_result') }}</h2><a class="btn ghost" href="{{ url_for('yield_pdf') }}">{{ tr('download_pdf') }}</a></div>{% for item in result.explain %}<div class="health-row"><span>{{ item.label }}</span><b>{{ item.score }}%</b></div><div class="progress"><span style="width:{{ item.score }}%"></span></div>{% endfor %}<div class="notice">{{ tr('estimate_note') }}</div></div>
+{% endif %}
+{% endblock %}
+{% block scripts %}<script>window.cropPilotLocation={{ user['location']|tojson }};</script>{% endblock %}

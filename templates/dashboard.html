@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ tr('dashboard') }} · Mannina Maga{% endblock %}
+{% block content %}
+<section class="hero farmer-hero"><span class="eyebrow">{{ tr('farm_overview') }}</span><h1>{{ tr('welcome') }}, {{ user['name'] }}!</h1><p>{{ tr('home_intro') }}</p></section>
+<div class="metric-grid simple-metrics">
+  <div class="metric-card"><span>{{ tr('farm_area') }}</span><strong>{{ metrics.farm_area }}</strong><small>{{ tr('acre') }}</small></div>
+  <div class="metric-card"><span>{{ tr('main_crop') }}</span><strong class="text-metric">{{ metrics.crop }}</strong><small>{{ user['location'] or 'My Farm' }}</small></div>
+  <div class="metric-card"><span>{{ tr('soil_health') }}</span><strong>{{ metrics.soil_health }}%</strong><small>{{ tr('good') }}</small></div>
+  <div class="metric-card weather-mini"><span>{{ tr('weather_status') }}</span>{% if weather %}<strong>{{ weather.temperature }}°C</strong><small>{{ weather.condition }} · {{ weather.rainfall_today }} mm</small>{% else %}<strong>--</strong><small>{{ tr('not_available') }}</small>{% endif %}</div>
+</div>
+<h2 class="section-title">{{ tr('quick_actions') }}</h2>
+<div class="action-grid farmer-actions">
+  <a class="action-card green" href="{{ url_for('weather') }}"><span class="action-icon">☁</span><h3>{{ tr('check_weather') }}</h3><p>{{ tr('weather_desc') }}</p><b>→</b></a>
+  <a class="action-card green" href="{{ url_for('yield_predictor') }}"><span class="action-icon">↗</span><h3>{{ tr('predict_yield') }}</h3><p>{{ tr('yield_desc') }}</p><b>→</b></a>
+  <a class="action-card green" href="{{ url_for('crop_advisor') }}"><span class="action-icon">◈</span><h3>{{ tr('crop_advice') }}</h3><p>{{ tr('crop_desc') }}</p><b>→</b></a>
+  <a class="action-card green" href="{{ url_for('soil_lab') }}"><span class="action-icon">◉</span><h3>{{ tr('soil_check') }}</h3><p>{{ tr('soil_desc') }}</p><b>→</b></a>
+</div>
+<div class="report-card"><div><h2>{{ tr('report') }}</h2><p>{{ tr('report_desc') }}</p></div><a class="btn primary" href="{{ url_for('farm_pdf') }}">{{ tr('download_farm_report') }}</a></div>
+{% endblock %}

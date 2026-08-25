@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ tr('signin') }} · Mannina Maga{% endblock %}
+{% block public_content %}
+<div class="auth-shell farmer-auth">
+  <section class="auth-info">
+    <div class="brand brand-light brand-with-sub"><span class="brand-mark">MM</span><span class="brand-name-wrap"><b>Mannina Maga</b><small>ಮಣ್ಣಿನ ಮಗ</small></span></div>
+    <div><span class="eyebrow">ನಮ್ಮ ಮಣ್ಣು · SMART FARMING</span><h1>Smart farming.<br><span>Rooted in our soil.</span></h1><p>Weather, crop yield, soil health and crop advice in one farmer-friendly app.</p></div>
+    <small>English · हिन्दी · ಕನ್ನಡ</small>
+  </section>
+  <section class="auth-form-wrap">
+    <form class="auth-card" method="post">
+      <h2>{{ tr('signin') }}</h2><p class="muted">{{ tr('signin_intro') }}</p>
+      {% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
+      <label>{{ tr('email') }}</label><input type="email" name="email" placeholder="farmer@example.com" required>
+      <label>{{ tr('password') }}</label><input type="password" name="password" required>
+      <button class="btn primary full" type="submit">{{ tr('signin') }}</button>
+      <p class="center muted">{{ tr('new_here') }} <a href="{{ url_for('register') }}">{{ tr('register') }}</a></p>
+    </form>
+  </section>
+</div>
+{% endblock %}

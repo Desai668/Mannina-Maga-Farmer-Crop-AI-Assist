@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="{{ current_lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Mannina Maga{% endblock %}</title>
+  <meta name="theme-color" content="#166534">
+  <meta name="description" content="Mannina Maga - smart farming rooted in our soil">
+  <meta name="author" content="Subodh Desai">
+  <link rel="manifest" href="{{ url_for('manifest') }}">
+  <link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+{% if user %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <div>
+      <a class="brand brand-side brand-with-sub" href="{{ url_for('dashboard') }}"><span class="brand-mark">MM</span><span class="brand-name-wrap"><b>Mannina Maga</b><small>ಮಣ್ಣಿನ ಮಗ</small></span></a>
+      <div class="farmer-card"><strong>{{ user['name'] }}</strong><span>{{ user['location'] or 'My Farm' }}</span><span>{{ crop_label(user['crop']) }} · {{ user['area'] }} {{ tr('acre') }}</span></div>
+      <nav class="nav">
+        <a class="{% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">⌂ {{ tr('dashboard') }}</a>
+        <a class="{% if request.endpoint == 'weather' %}active{% endif %}" href="{{ url_for('weather') }}">☁ {{ tr('weather') }}</a>
+        <a class="{% if request.endpoint == 'yield_predictor' %}active{% endif %}" href="{{ url_for('yield_predictor') }}">↗ {{ tr('yield') }}</a>
+        <a class="{% if request.endpoint == 'crop_advisor' %}active{% endif %}" href="{{ url_for('crop_advisor') }}">◈ {{ tr('advisor') }}</a>
+        <a class="{% if request.endpoint == 'soil_lab' %}active{% endif %}" href="{{ url_for('soil_lab') }}">◉ {{ tr('soil') }}</a>
+        <a class="{% if request.endpoint == 'analytics' %}active{% endif %}" href="{{ url_for('analytics') }}">▥ {{ tr('analytics') }}</a>
+        <a class="{% if request.endpoint == 'about' %}active{% endif %}" href="{{ url_for('about') }}">ⓘ {{ tr('about') }}</a>
+      </nav>
+    </div>
+    <a class="logout" href="{{ url_for('logout') }}">↪ {{ tr('logout') }}</a>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-mark mini">MM</span><span>Mannina Maga</span></a>
+      <div class="top-actions">
+        <span class="status-dot"></span><span class="muted desktop-only" id="connectionText">{{ tr('online') }}</span>
+        <form class="language-form" method="post" action="{{ url_for('set_language') }}">
+          <input type="hidden" name="next" value="{{ request.path }}">
+          <label class="sr-only" for="langSelect">{{ tr('language') }}</label>
+          <select id="langSelect" name="lang" onchange="this.form.submit()">
+            <option value="en" {% if current_lang=='en' %}selected{% endif %}>English</option>
+            <option value="hi" {% if current_lang=='hi' %}selected{% endif %}>हिन्दी</option>
+            <option value="kn" {% if current_lang=='kn' %}selected{% endif %}>ಕನ್ನಡ</option>
+          </select>
+        </form>
+        <button class="lite-btn" id="liteModeBtn" type="button">{{ tr('simple_mode') }}</button>
+        <button class="menu-btn" id="menuBtn">☰</button>
+      </div>
+    </header>
+    <div class="page">
+      {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endif %}{% endwith %}
+      {% block content %}{% endblock %}
+      <footer class="app-footer">
+        <span>Mannina Maga · ಮಣ್ಣಿನ ಮಗ</span>
+        <strong>Developed by Subodh Desai</strong>
+      </footer>
+    </div>
+  </main>
+
+  <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+    <a class="{% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}"><span>⌂</span><small>{{ tr('dashboard') }}</small></a>
+    <a class="{% if request.endpoint == 'weather' %}active{% endif %}" href="{{ url_for('weather') }}"><span>☁</span><small>{{ tr('weather') }}</small></a>
+    <a class="{% if request.endpoint == 'yield_predictor' %}active{% endif %}" href="{{ url_for('yield_predictor') }}"><span>↗</span><small>{{ tr('yield') }}</small></a>
+    <a class="{% if request.endpoint == 'soil_lab' %}active{% endif %}" href="{{ url_for('soil_lab') }}"><span>◉</span><small>{{ tr('soil') }}</small></a>
+    <button id="mobileMenuBtn" type="button"><span>☰</span><small>Menu</small></button>
+  </nav>
+</div>
+{% else %}
+  {% block public_content %}{% endblock %}
+  <footer class="public-footer">Developed by <strong>Subodh Desai</strong></footer>
+{% endif %}
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

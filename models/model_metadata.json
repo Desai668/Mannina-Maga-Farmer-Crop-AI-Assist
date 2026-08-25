@@ -1,0 +1,27 @@
+{
+  "r2": 0.9969,
+  "mae": 0.4589,
+  "records": 8250,
+  "crops": [
+    "Rice",
+    "Wheat",
+    "Maize",
+    "Cotton",
+    "Soybean",
+    "Groundnut",
+    "Sugarcane",
+    "Jowar",
+    "Bajra",
+    "Ragi",
+    "Pigeon Pea",
+    "Chickpea",
+    "Sunflower",
+    "Onion",
+    "Tomato"
+  ],
+  "crop_count": 15,
+  "model": "GradientBoostingRegressor",
+  "sklearn_version": "1.8.0",
+  "training_data": "Bundled calibration sample for 15 supported crops",
+  "official_retraining_supported": true
+}
