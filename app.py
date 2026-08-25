@@ -3,6 +3,7 @@ import json
 import os
 import sqlite3
 from pathlib import Path
+import time
 
 import joblib
 import pandas as pd
@@ -272,11 +273,17 @@ def get_live_weather(location):
     }
 
 def safe_weather(location):
-    try:
-        return get_live_weather(location)
-    except Exception as e:
-        print(f"WEATHER ERROR for {location}: {repr(e)}", flush=True)
-        return None
+    for attempt in range(3):
+        try:
+            return get_live_weather(location)
+        except Exception as e:
+            print(
+                f"WEATHER ERROR attempt {attempt + 1} for {location}: {repr(e)}",
+                flush=True
+            )
+            time.sleep(1.5)
+
+    return None
 
 def pdf_response(title, rows, filename, note=None):
     buffer = io.BytesIO()
