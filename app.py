@@ -274,7 +274,8 @@ def get_live_weather(location):
 def safe_weather(location):
     try:
         return get_live_weather(location)
-    except Exception:
+    except Exception as e:
+        print(f"WEATHER ERROR for {location}: {repr(e)}", flush=True)
         return None
 
 def pdf_response(title, rows, filename, note=None):
